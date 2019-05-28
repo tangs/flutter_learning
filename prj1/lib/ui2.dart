@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
 
 class UI2App extends StatelessWidget {
+
+  Column _buildButtonColumn(Color color, IconData iconData, String label) {
+    return Column(
+      children: <Widget>[
+        Icon(
+          iconData,
+          color: color,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final image = Image.asset(
@@ -19,21 +40,21 @@ class UI2App extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                padding: EdgeInsets.only(bottom: 6),
                 child: Text(
                   'Oeschinen Lake Campground',
                   style: TextStyle(
                     color: Colors.black,
+                    fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
                   textAlign: TextAlign.left,
                 ),
               ),
-              
               Text(
                 'Kandersteg, Switzerland',
                 style: TextStyle(
-                  color: Colors.black38,
+                  color: Colors.grey,
                   fontSize: 13,
                 ),
                 textAlign: TextAlign.left,
@@ -59,57 +80,9 @@ class UI2App extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Icon(
-                Icons.call,
-                color: Colors.blue,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-              ),
-              Text(
-                'CALL',
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              Icon(
-                Icons.near_me,
-                color: Colors.blue,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-              ),
-              Text(
-                'ROUTE',
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              Icon(
-                Icons.share,
-                color: Colors.blue,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-              ),
-              Text(
-                'SHARE',
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
+          _buildButtonColumn(Colors.blue, Icons.call, 'CALL'),
+          _buildButtonColumn(Colors.blue, Icons.near_me, 'ROUTE'),
+          _buildButtonColumn(Colors.blue, Icons.share, 'SHARE'),
         ],
       ),
     );
