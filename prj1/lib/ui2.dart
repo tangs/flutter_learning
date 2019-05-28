@@ -10,11 +10,13 @@ class UI2App extends StatelessWidget {
           color: color,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+          padding: EdgeInsets.only(top: 8),
         ),
         Text(
           label,
           style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
             color: color,
           ),
         ),
@@ -27,7 +29,7 @@ class UI2App extends StatelessWidget {
     final image = Image.asset(
       'images/2.jpeg',
       // width: 440,
-      fit: BoxFit.fitWidth,  
+      fit: BoxFit.cover,
     );
     final top = Container(
       padding: EdgeInsets.fromLTRB(30, 30, 30, 15),
