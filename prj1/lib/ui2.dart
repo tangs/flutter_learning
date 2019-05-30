@@ -1,5 +1,36 @@
 import 'package:flutter/material.dart';
 
+class StarButton extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _StarButtonState();
+}
+
+class _StarButtonState extends State<StarButton> {
+  bool isSelected = false;
+
+  void onPressed() {
+    setState(() {
+      isSelected = !isSelected;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        IconButton(
+          onPressed: onPressed,
+          color: Colors.red,
+          icon: Icon(isSelected ? Icons.star : Icons.star_border),
+        ),
+        Text(isSelected ? '41' : '40'),
+      ],
+    );
+  }
+}
+
 class UI2App extends StatelessWidget {
 
   Column _buildButtonColumn(Color color, IconData iconData, String label) {
@@ -26,10 +57,22 @@ class UI2App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Image.asset(
-      'images/2.jpeg',
-      // width: 440,
+    // final image = Image.asset(
+    //   'images/2.jpeg',
+    //   // width: 440,
+    //   fit: BoxFit.cover,
+    // );
+    // final image = Image.network(
+    //   'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+    //   fit: BoxFit.cover,
+    // );
+    final image = FadeInImage.assetNetwork(
       fit: BoxFit.cover,
+      height: 300,
+      placeholder: 'images/2.jpeg',
+      fadeInDuration: const Duration(seconds: 1),
+      // fadeInCurve: Curves.bounceIn,
+      image: 'https://images.unsplash.com/photo-1554773228-1f38662139db?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
     );
     final top = Container(
       padding: EdgeInsets.fromLTRB(30, 30, 30, 15),
@@ -48,7 +91,7 @@ class UI2App extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -63,17 +106,7 @@ class UI2App extends StatelessWidget {
                 ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                Icons.star,
-                color: Colors.red[500],
-              ),
-              Text('41'),
-            ],
-          ),
+          StarButton(),
         ],
       ),
     );
@@ -85,6 +118,12 @@ class UI2App extends StatelessWidget {
           _buildButtonColumn(Colors.blue, Icons.call, 'CALL'),
           _buildButtonColumn(Colors.blue, Icons.near_me, 'ROUTE'),
           _buildButtonColumn(Colors.blue, Icons.share, 'SHARE'),
+          Switch.adaptive(
+            value: true,
+            onChanged: (bool newValue) {
+              
+            },
+          ),
         ],
       ),
     );
@@ -99,17 +138,15 @@ class UI2App extends StatelessWidget {
         ),
       ),
     );
-    return MaterialApp(
-      title: 'UI2',
-      home: Scaffold(
-        body: ListView(
-          children: <Widget>[
-            image,
-            top,
-            mid,
-            bottom,
-          ],
-        ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: ListView(
+        children: <Widget>[
+          image,
+          top,
+          mid,
+          bottom,
+        ],
       ),
     );
   }  

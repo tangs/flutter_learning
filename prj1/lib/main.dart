@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ui2.dart';
+import 'func_mask/login.dart';
 
 class MyAppBar extends StatelessWidget {
   MyAppBar({this.title});
@@ -276,5 +276,11 @@ class _ShoppingListState extends State<ShoppingList> {
 // }
 
 void main() {
-  runApp(UI2App());
+  runApp(MaterialApp(
+      title: 'login',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: LoginUI()
+      )
+  );
 }
