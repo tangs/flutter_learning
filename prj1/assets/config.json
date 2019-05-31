@@ -1,0 +1,30 @@
+{
+    "pay": [
+        {
+            "key": "commwappayalipay",
+            "show": "H5支付宝"
+        },
+        {
+            "key": "commwappayweixin",
+            "show": "H5微信"
+        },
+        {
+            "key": "commwappayunionpay",
+            "show": "H5银联"
+        }
+    ],
+    "hall": [
+        {
+            "key": "<1",
+            "show": "大风车"
+        },
+        {
+            "key": "<2",
+            "show": "经典水果机"
+        },
+        {
+            "key": "<3",
+            "show": "金鲨银鲨"
+        }
+    ]
+}

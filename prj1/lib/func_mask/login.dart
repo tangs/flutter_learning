@@ -6,11 +6,11 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widget_tools.dart';
-import '../ui2.dart';
+import 'mask.dart';
 
 class _LoginUIState extends State<LoginUI> {
-  String username = '';
-  String password = '';
+  String username = 'test';
+  String password = 'Slot2018';
 
   void showToast(BuildContext context, String msg) {
     final scaffold = Scaffold.of(context);
@@ -41,13 +41,13 @@ class _LoginUIState extends State<LoginUI> {
         bool isSucss = false;
         String errMsg = '';
         if (contents != null && contents.length > 0) {
-          Map<String, String> jsonData = JsonDecoder().convert(contents);
+          final jsonData = JsonDecoder().convert(contents);
           if (jsonData['result'] == 'true') {
             isSucss = true;
             String param = jsonData['param'];
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new UI2App()),
+              new MaterialPageRoute(builder: (context) => new MaskUI()),
             );
           } else {
             if (jsonData['param'] != null) {
