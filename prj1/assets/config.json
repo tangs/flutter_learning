@@ -11,6 +11,78 @@
         {
             "key": "commwappayunionpay",
             "show": "H5银联"
+        },
+        {
+            "key": "wechat",
+            "show": "微信"
+        },
+        {
+            "key": "wechatpp",
+            "show": "微信APP"
+        },
+        {
+            "key": "appstore",
+            "show": "苹果支付"
+        },
+        {
+            "key": "samsung",
+            "show": "三星"
+        },
+        {
+            "key": "xiaomi",
+            "show": "小米"
+        },
+        {
+            "key": "ysdk",
+            "show": "ysdk"
+        },
+        {
+            "key": "vivo",
+            "show": "vivo"
+        },
+        {
+            "key": "jinli",
+            "show": "金立"
+        },
+        {
+            "key": "huawei",
+            "show": "华为"
+        },
+        {
+            "key": "uc",
+            "show": "uc"
+        },
+        {
+            "key": "jolo",
+            "show": "jolo"
+        },
+        {
+            "key": "ptpty",
+            "show": "ptpty"
+        },
+        {
+            "key": "baidu_new",
+            "show": "百度(新)"
+        },
+        {
+            "key": "anzhi",
+            "show": "anzhi"
+        },
+        {
+            "key": "niux",
+            "show": "niux"
+        },
+        {
+            "key": "letv",
+            "show": "乐视"
+        },
+        {
+            "key": "360",
+            "show": "360"
+        },
+        {
+            "key": "baidu",
+            "show": "百度"
         }
     ],
     "hall": [
@@ -25,6 +97,122 @@
         {
             "key": "<3",
             "show": "金鲨银鲨"
+        },
+        {
+            "key": "<4",
+            "show": "奔驰宝马"
+        },
+        {
+            "key": "<6",
+            "show": "扎金花"
+        },
+        {
+            "key": "<7",
+            "show": "百人牛牛"
+        },
+        {
+            "key": "<8",
+            "show": "客服 "
+        },
+        {
+            "key": "<9",
+            "show": "奖励"
+        },
+        {
+            "key": "<10",
+            "show": "抽奖"
+        },
+        {
+            "key": "<11",
+            "show": "摇钱树"
+        },
+        {
+            "key": "<12",
+            "show": "VIP"
+        },
+        {
+            "key": "<14",
+            "show": "商店"
+        },
+        {
+            "key": "<15",
+            "show": "活动"
+        },
+        {
+            "key": "<16",
+            "show": "排行"
+        },
+        {
+            "key": "<17",
+            "show": "更多"
+        },
+        {
+            "key": "<18",
+            "show": "邮件"
+        },
+        {
+            "key": "<19",
+            "show": "绑定手机"
+        },
+        {
+            "key": "<24",
+            "show": "黄金矿工"
+        },
+        {
+            "key": "<26",
+            "show": "聊天"
+        },
+        {
+            "key": "<27",
+            "show": "快速开始"
+        },
+        {
+            "key": "<28",
+            "show": "下载"
+        },
+        {
+            "key": "<29",
+            "show": "评论"
+        },
+        {
+            "key": "<30",
+            "show": "快速支付"
+        },
+        {
+            "key": "<32",
+            "show": "捕鱼"
+        },
+        {
+            "key": "<33",
+            "show": "拉霸"
+        },
+        {
+            "key": "<34",
+            "show": "钻石购买"
+        },
+        {
+            "key": "<36",
+            "show": "特殊捕鱼-更多"
+        },
+        {
+            "key": "<37",
+            "show": "特殊捕鱼-普通大厅"
+        },
+        {
+            "key": "<38",
+            "show": "特殊捕鱼-弹出礼包"
+        },
+        {
+            "key": "<39",
+            "show": "扎金花-贵宾厅"
+        },
+        {
+            "key": "<40",
+            "show": "星座场"
+        },
+        {
+            "key": "<41",
+            "show": "气球场"
         }
     ]
 }
