@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/widget_tools.dart';
 import 'mask.dart';
+import 'config.dart';
 
 class _LoginUIState extends State<LoginUI> {
   String username = 'test';
@@ -33,7 +34,7 @@ class _LoginUIState extends State<LoginUI> {
     HttpClient client = new HttpClient();
     final content = new Utf8Encoder().convert('$username$password');
     final String token = md5.convert(content).toString();
-    final url = 'http://173.248.237.234:8081/login.php/?username=$username&token=$token';
+    final url = '${Config.loginAddr}?username=$username&token=$token';
     client.getUrl(Uri.parse(url)).then((HttpClientRequest request) {
       return request.close();
     }).then((HttpClientResponse response) {
@@ -44,10 +45,10 @@ class _LoginUIState extends State<LoginUI> {
           final jsonData = JsonDecoder().convert(contents);
           if (jsonData['result'] == 'true') {
             isSucss = true;
-            String param = jsonData['param'];
+            String token = jsonData['param'];
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new MaskUI()),
+              new MaterialPageRoute(builder: (context) => new MaskUI(token: token)),
             );
           } else {
             if (jsonData['param'] != null) {
@@ -67,7 +68,7 @@ class _LoginUIState extends State<LoginUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: new AppBar(
         title: new Text("Login"),
       ),
@@ -81,10 +82,10 @@ class _LoginUIState extends State<LoginUI> {
                 children: <Widget>[
                   WidgetTools.buildTextField('username', TextInputType.text, (String text) {
                     username = text;
-                  }),
+                  }, ''),
                   WidgetTools.buildTextField('password', TextInputType.text, (String text) {
                     password = text;
-                  }),
+                  }, ''),
                 ],
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
