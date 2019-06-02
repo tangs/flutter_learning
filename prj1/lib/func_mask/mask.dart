@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widget_tools.dart';
+import 'config.dart';
 
 class _MaskUIState extends State<MaskUI> {
 
@@ -19,6 +20,76 @@ class _MaskUIState extends State<MaskUI> {
   void update() {
     setState(() {
       
+    });
+  }
+
+  void _updateParams(String src, List dest) {
+    final hideParas = src.split(':');
+    for (Map para in dest) {
+      bool isHide = false;
+      String key = para['key'];
+      for (String hidePara in hideParas) {
+        if (key == hidePara) {
+          isHide = true;
+          break;
+        }
+      }
+      para['select'] = isHide;
+    }
+  }
+
+  void _updateQueryData(String data) {
+    dynamic pars = JsonDecoder().convert(data);
+    for (dynamic data in pars) {
+      if (data['version'] == version && data['channel'] == channels) {
+        final String type = data['type'];
+        final String value = data['value'];
+        // final String value = '<1:<2:<4';
+        switch (type) {
+          case 'hall': {
+            _updateParams(value, dataStates['hall']);
+          }
+          break;
+          case 'pay': {
+            _updateParams(value, dataStates['pay']);
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  void query() {
+    HttpClient client = new HttpClient();
+    final url = '${Config.queryAddr}?version=$version&channel=$channels';
+    client.getUrl(Uri.parse(url)).then((HttpClientRequest request) {
+      return request.close();
+    }).then((HttpClientResponse response) {
+      response.transform(utf8.decoder).listen((contents) {
+        bool isSucss = false;
+        String errMsg = '';
+        if (contents != null && contents.length > 0) {
+          final jsonData = JsonDecoder().convert(contents);
+          if (jsonData['result'] == 'true') {
+            isSucss = true;
+            String param = jsonData['param'];
+            // logs.add(param);
+            String time = DateTime.now().toString();
+            _updateQueryData(param);
+            logs.insert(0, 'query $time:$param');
+            update();
+          } else {
+            if (jsonData['param'] != null) {
+              errMsg = jsonData['param'];
+            }
+          }
+        }
+        if (!isSucss) {
+          showToast(context, errMsg);
+        }
+       });
+    }).catchError((err) {
+     showToast(context, '链接错误');
     });
   }
 
@@ -49,7 +120,7 @@ class _MaskUIState extends State<MaskUI> {
       crossAxisCount: cols,
       childAspectRatio: 4.5,
       children: List.generate(data.length, (index) {
-        logs.add(data[index]['show']);
+        // logs.add(data[index]['show']);
         final isSelcted = data[index]['select'] == true;
         return Row(
           // child: Text(data[index]['show']),
@@ -102,7 +173,9 @@ class _MaskUIState extends State<MaskUI> {
                       RaisedButton(
                         child: Text('Query'),
                         onPressed: () {
-                          checkParams(context);
+                          if (checkParams(context)) {
+                            query();
+                          }
                         },
                       ),
                       RaisedButton(
