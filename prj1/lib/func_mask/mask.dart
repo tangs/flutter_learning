@@ -38,13 +38,22 @@ class _MaskUIState extends State<MaskUI> {
     }
   }
 
+  void _clearData() {
+    dataStates.forEach((k, v) {
+      for (final para in v) {
+        para['select'] = false;
+      }
+    });
+  }
+
   void _updateQueryData(String data) {
     dynamic pars = JsonDecoder().convert(data);
     for (dynamic data in pars) {
       if (data['version'] == version && data['channel'] == channels) {
+        _clearData();
         final String type = data['type'];
-        final String value = data['value'];
-        // final String value = '<1:<2:<4';
+        // final String value = data['value'];
+        final String value = '<1:<2:<4';
         switch (type) {
           case 'hall': {
             _updateParams(value, dataStates['hall']);
