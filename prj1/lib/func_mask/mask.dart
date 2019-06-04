@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widget_tools.dart';
@@ -144,6 +141,30 @@ class _MaskUIState extends State<MaskUI> {
     });
   }
 
+  void syncConfig() async {
+    HttpClient client = new HttpClient();
+    final url = '${Config.reloadAddr}';
+    final request = await client.postUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        response.transform(utf8.decoder).listen((contents) {
+          // print(contents);
+          // if (contents != null && contents.length > 0) {
+          //   final jsonData = JsonDecoder().convert(contents);
+          //   // if (jsonData['result'] == 'true') {
+          //   //   // showToast(context, '发布成功.');
+          //   // }
+          // }
+          logs.insert(0, contents);
+          update();
+        });
+      } else {
+        // print('Error get:\nHttp status ${response.statusCode}');    //连接错误提示
+        logs.insert(0, 'Error get:\nHttp status ${response.statusCode}');
+        update();
+      }
+  }
+
   void showToast(BuildContext context, String msg) {
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(new SnackBar(
@@ -269,6 +290,14 @@ class _MaskUIState extends State<MaskUI> {
                                 );
                               },
                             );
+                          }
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text('Sync'),
+                        onPressed: () {
+                          if (checkParams(context)) {
+                            syncConfig();
                           }
                         },
                       ),
