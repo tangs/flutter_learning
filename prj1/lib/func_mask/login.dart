@@ -10,7 +10,7 @@ import 'mask.dart';
 import 'config.dart';
 
 class _LoginUIState extends State<LoginUI> {
-  String username = 'test';
+  String username = 'tangs';
   String password = 'Slot2018';
 
   void showToast(BuildContext context, String msg) {
@@ -48,7 +48,10 @@ class _LoginUIState extends State<LoginUI> {
             String token = jsonData['param'];
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new MaskUI(token: token)),
+              new MaterialPageRoute(builder: (context) => new MaskUI(
+                username: username,
+                token: token,
+              )),
             );
           } else {
             if (jsonData['param'] != null) {

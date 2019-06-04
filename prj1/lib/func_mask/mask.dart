@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +11,14 @@ import 'config.dart';
 
 class _MaskUIState extends State<MaskUI> {
 
+  final String username;
   final String token;
   Map<String, dynamic> dataStates;
   List<String> logs = List();
   String version = '';
   String channels = '';
 
-  _MaskUIState(this.token);
+  _MaskUIState(this.username, this.token);
 
   void update() {
     setState(() {
@@ -50,10 +53,10 @@ class _MaskUIState extends State<MaskUI> {
     dynamic pars = JsonDecoder().convert(data);
     for (dynamic data in pars) {
       if (data['version'] == version && data['channel'] == channels) {
-        _clearData();
+        // _clearData();
         final String type = data['type'];
-        // final String value = data['value'];
-        final String value = '<1:<2:<4';
+        final String value = data['value'];
+        // final String value = '<1:<2:<4';
         switch (type) {
           case 'hall': {
             _updateParams(value, dataStates['hall']);
@@ -80,6 +83,7 @@ class _MaskUIState extends State<MaskUI> {
         if (contents != null && contents.length > 0) {
           final jsonData = JsonDecoder().convert(contents);
           if (jsonData['result'] == 'true') {
+            _clearData();
             isSucss = true;
             String param = jsonData['param'];
             // logs.add(param);
@@ -99,6 +103,44 @@ class _MaskUIState extends State<MaskUI> {
        });
     }).catchError((err) {
      showToast(context, '链接错误');
+    });
+  }
+
+  void _publish() {
+    final String base = 'username=$username&token=$token&version=$version&channel=$channels';
+    dataStates.forEach((k, v) async {
+      String value = '';
+      for (Map data in v) {
+        if (data['select'] == true) {
+          final key = data['key'];
+          value += '$key:';
+        }
+      }
+      if (value.length > 0) {
+        value = value.substring(0, value.length - 1);
+      }
+      final String postData = '$base&type=$k&value=$value';
+      HttpClient client = new HttpClient();
+      final request = await client.postUrl(Uri.parse('${Config.publishAddr}?$postData'));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        response.transform(utf8.decoder).listen((contents) {
+          // print(contents);
+            if (contents != null && contents.length > 0) {
+            final jsonData = JsonDecoder().convert(contents);
+            if (jsonData['result'] == 'true') {
+              // showToast(context, '设置成功.');
+            }
+            }
+          logs.insert(0, contents);
+          update();
+        });
+      } else {
+        // print('Error get:\nHttp status ${response.statusCode}');    //连接错误提示
+        logs.insert(0, 'Error get:\nHttp status ${response.statusCode}');
+        update();
+      }
+      // }
     });
   }
 
@@ -190,7 +232,44 @@ class _MaskUIState extends State<MaskUI> {
                       RaisedButton(
                         child: Text('Publish'),
                         onPressed: () {
-                          checkParams(context);
+                          if (checkParams(context)) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                String alert = '';
+                                dataStates.forEach((k, v) {
+                                  alert += '$k:[';
+                                  for (Map data in v) {
+                                    if (data['select'] == true) {
+                                      final show = data['show'];
+                                      alert += '$show,';
+                                    }
+                                  }
+                                  alert += ']\n\n';
+                                });
+                                alert += 'Confirm publish?';
+                                return AlertDialog(
+                                  title: Text('Alert'),
+                                  content: Text(alert),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _publish();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                       ),
                     ]
@@ -255,11 +334,12 @@ class _MaskUIState extends State<MaskUI> {
 }
 
 class MaskUI extends StatefulWidget {
+  final String username;
   final String token;
 
-  const MaskUI({Key key, this.token}) : super(key: key);
+  const MaskUI({Key key, this.username, this.token}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MaskUIState(token);
+  State<StatefulWidget> createState() => _MaskUIState(username, token);
   
 }
